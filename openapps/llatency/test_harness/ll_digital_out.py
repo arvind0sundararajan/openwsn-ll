@@ -72,7 +72,11 @@ class AnalogDiscoveryUtils:
             -constant frequency digital output to trigger openmote pin 
             -logic analyzer to sample input channels to AD, and save values to a csv file.
         """
+        dwf.FDwfDigitalOutEnableSet(hdwf, c_int(0), c_int(1))	# enable channel 0
+        dwf.FDwfDigitalOutDividerSet(hdwf, c_int(0), c_int(100))	# set divider
+        dwf.FDwfDigitalOutCounterSet(hdwf, c_int(0), c_int(100), c_int(100)) #set counter
 
+        dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
         # in record mode samples after trigger are acquired only
         dwf.FDwfDigitalInAcquisitionModeSet(hdwf, acqmodeRecord)
         # sample rate = system frequency / divider, 100MHz/100 = 1 MHz
@@ -86,7 +90,7 @@ if __name__ == "__main__":
 
     experiment_duration = (num_packets * period) / 1000
 
-    nSamples = experiment_duration * sample_freq
+    nSamples = experiment_duration * sample_rate
 
     print "duration: " + str(experiment_duration)
     print "number of sample: " + str(nSamples)
@@ -95,8 +99,8 @@ if __name__ == "__main__":
 
     ad_utils = AnalogDiscoveryUtils(sample_rate, nSamples)
     ad_utils.open_device()
-    #run(ad_utils)
-    #ad_utils.close_device()
+    run(ad_utils)
+    ad_utils.close_device()
 
 
 
