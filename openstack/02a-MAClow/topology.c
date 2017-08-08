@@ -5,7 +5,7 @@
 //=========================== defines =========================================
 
 #define TOPOLOGY_DAGROOT 0xa6
-#define TOPOLOGY_MOTETX 0xf7 //transmits
+#define TOPOLOGY_MOTETX 0xf7//transmits
 #define TOPOLOGY_MOTERX 0xd5 //receives
 // our topology goes TX <-> RX <-> DAGROOT
 
