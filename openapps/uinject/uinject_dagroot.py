@@ -237,4 +237,4 @@ def main():
     print 'poipoi'
 
 if __name__=="__main__":
-    moteProbe('COM7')
+    moteProbe('/dev/ttyUSB0')
