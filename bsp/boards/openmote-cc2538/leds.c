@@ -130,6 +130,18 @@ void leds_error_blink() {
    }
 }
 
+void leds_debug_blink() {
+   uint8_t i;
+   volatile uint16_t delay;
+     
+   // blink error LED for ~1s
+   for (i=0;i<8;i++) {
+    bspLedToggle(BSP_LED_3);
+      for (delay=0xffff;delay>0;delay--);
+      for (delay=0xffff;delay>0;delay--);
+   }
+}
+
 void leds_circular_shift() {
    uint8_t i;
    volatile uint16_t delay;

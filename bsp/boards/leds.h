@@ -52,6 +52,7 @@ void    leds_debug_on(void);
 void    leds_debug_off(void);
 void    leds_debug_toggle(void);
 uint8_t leds_debug_isOn(void);
+void	leds_debug_blink(void);
 
 void    leds_all_on(void);
 void    leds_all_off(void);
