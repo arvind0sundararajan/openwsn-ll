@@ -20,6 +20,7 @@
 #include "userialbridge.h"
 #include "uexpiration.h"
 #include "uexpiration_monitor.h"
+#include "llatency.h"
 
 //=========================== variables =======================================
 
@@ -47,4 +48,5 @@ void openapps_init(void) {
    //userialbridge_init();
    //uexpiration_init();
    //umonitor_init();
+   llatency_init();
 }

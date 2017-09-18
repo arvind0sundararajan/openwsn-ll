@@ -13,6 +13,7 @@ if localEnv['board']=='python':
         'cinfo',
         'cleds',
         'cwellknown',
+        'llatency',
         'uecho',
         'uinject',
         'userialbridge',
@@ -156,6 +157,7 @@ else:
             os.path.join('#','openstack','03b-IPv6'),
             # openapps
             os.path.join('#','openapps'),
+            os.path.join('#','bsp','boards','openmote-cc2538')
         ]+[os.path.join('#','openapps',a) for a in apps],
     )
     
