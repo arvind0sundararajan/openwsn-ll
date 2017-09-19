@@ -17,7 +17,7 @@ void llatency_sendDone(OpenQueueEntry_t* msg, owerror_t error);
 void llatency_receive(OpenQueueEntry_t* msg);
 void llatency_get_values(uint32_t* values);
 
-void llatency_send_pkt(void);
+static void llatency_send_pkt(void);
 void llatency_task_cb(void);
 
 #endif

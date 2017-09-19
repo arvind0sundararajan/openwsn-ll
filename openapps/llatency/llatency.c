@@ -26,7 +26,7 @@ static const uint8_t llatency_dst_addr[]   = {
 
 //=========================== prototypes =======================================
 
-void ll_configure_pins(void);
+static void ll_configure_pins(void);
 void openmote_GPIO_A_Handler(void);
 
 //=========================== public ==========================================
@@ -49,7 +49,7 @@ void llatency_init() {
 
 /* Register the interrupt handler to AD4/DIO4 (PA2)
  */
-void ll_configure_pins(void) {
+static void ll_configure_pins(void) {
     volatile uint32_t i;
 
     //Delay to avoid pin floating problems 
@@ -104,26 +104,30 @@ void llatency_get_values(uint32_t* values) {
  * call the cb function specified.
  */
 void openmote_GPIO_A_Handler(void) {
-    INTERRUPT_DECLARATION();
+    debugpins_pkt_set();
+    //INTERRUPT_DECLARATION();
 
     // Disable interrupts 
-    DISABLE_INTERRUPTS();
+    //DISABLE_INTERRUPTS();
 
     // clear the interrupt!
     GPIOPinIntClear(GPIO_A_BASE, GPIO_PIN_2); 
 
+    debugpins_pkt_clr();
     //leds_debug_blink();
     llatency_send_pkt();
 
     //Enable interrupts 
-    ENABLE_INTERRUPTS();
+    //ENABLE_INTERRUPTS();
 }
 
 /**
  *push task to scheduler with CoAP priority, and let scheduler take care of it.
 */
-void llatency_send_pkt(void){
-   scheduler_push_task(llatency_task_cb,TASKPRIO_NONE);
+static void llatency_send_pkt(void){
+   debugpins_pkt_set();
+   scheduler_push_task(llatency_task_cb,TASKPRIO_COAP);
+   debugpins_pkt_clr();
 }
 
 /**
