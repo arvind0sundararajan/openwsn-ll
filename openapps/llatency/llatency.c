@@ -7,7 +7,6 @@
 #include "scheduler.h"
 #include "IEEE802154E.h"
 #include "idmanager.h"
-#include "sctimer.h"
 #include "debugpins.h"
 #include "headers/hw_memmap.h"
 #include "source/gpio.h"

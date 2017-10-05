@@ -2,6 +2,7 @@
 #include "uinject.h"
 #include "openqueue.h"
 #include "openserial.h"
+#include "opentimers.h"
 #include "packetfunctions.h"
 #include "scheduler.h"
 #include "IEEE802154E.h"
@@ -70,7 +71,6 @@ void uinject_receive(OpenQueueEntry_t* pkt) {
    task to scheduler with CoAP priority, and let scheduler take care of it.
 */
 void uinject_timer_cb(opentimers_id_t id){
-   
    scheduler_push_task(uinject_task_cb,TASKPRIO_COAP);
 }
 
