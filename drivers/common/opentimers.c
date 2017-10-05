@@ -94,7 +94,7 @@ void opentimers_scheduleIn(opentimers_id_t    id,
     
     opentimers_vars.timersBuf[id].timerType = timer_type;
     
-    // 2. updat the timer content
+    // 2. update the timer content
     switch (uint_type){
     case TIME_MS:
         opentimers_vars.timersBuf[id].totalTimerPeriod = duration*PORT_TICS_PER_MS;
