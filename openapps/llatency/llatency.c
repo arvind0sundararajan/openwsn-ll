@@ -112,21 +112,21 @@ void openmote_GPIO_A_Handler(void) {
     // clear the interrupt!
     GPIOPinIntClear(GPIO_A_BASE, GPIO_PIN_2); 
 
-    debugpins_pkt_clr();
     //leds_debug_blink();
     llatency_send_pkt();
 
     //Enable interrupts 
     //ENABLE_INTERRUPTS();
+    debugpins_pkt_clr();
 }
 
 /**
  *push task to scheduler with CoAP priority, and let scheduler take care of it.
 */
 static void llatency_send_pkt(void){
-   debugpins_pkt_set();
+   //debugpins_pkt_set();
    scheduler_push_task(llatency_task_cb,TASKPRIO_COAP);
-   debugpins_pkt_clr();
+   //debugpins_pkt_clr();
 }
 
 /**
