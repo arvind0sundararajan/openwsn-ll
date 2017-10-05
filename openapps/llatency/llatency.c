@@ -93,7 +93,8 @@ void llatency_get_values(uint32_t* values) {
   //counter value
   values[0] = opentimers_getValue();
   // asn
-  values[1] = ieee154e_getStartOfSlotReference();
+  values[1] = 0;
+  //ieee154e_getStartOfSlotReference();
 }
 
 //=========================== private =========================================
