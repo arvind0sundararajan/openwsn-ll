@@ -123,7 +123,7 @@ void openmote_GPIO_A_Handler(void) {
 */
 static void llatency_send_pkt(void){
    scheduler_push_task(llatency_task_cb,TASKPRIO_COAP);
-   //SCHEDULER_WAKEUP();
+   SCHEDULER_WAKEUP();
 }
 
 /**
@@ -131,9 +131,9 @@ static void llatency_send_pkt(void){
  */
 void llatency_task_cb() {
    //function called, blink debug led
-   //debugpins_pkt_set();
-   leds_debug_blink();
+   debugpins_pkt_set();
 
+   debugpins_pkt_clr();
    OpenQueueEntry_t*    pkt;
    uint8_t              asnArray[5];
    uint32_t             values[2];
@@ -206,7 +206,6 @@ void llatency_task_cb() {
    if ((openudp_send(pkt))==E_FAIL) {
       openqueue_freePacketBuffer(pkt);
    }
-   //debugpins_pkt_clr();
 }
 
 
