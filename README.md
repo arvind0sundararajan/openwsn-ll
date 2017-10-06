@@ -1,3 +1,5 @@
+Wireless sensor networks low latency research project. This repository contains the modifications to the OpenWSN source code (to be run on the OpenMote-cc2538) to run the low latency project. 
+
 OpenWSN firmware: stuff that runs on a mote
 
 Part of UC Berkeley's OpenWSN project, http://www.openwsn.org/.

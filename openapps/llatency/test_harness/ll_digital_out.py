@@ -56,7 +56,7 @@ class AnalogDiscoveryUtils:
         self.interface_handler = hdwf
 
         hzSys = c_double()
-        dwf.FDwfDigitalOutInternalClockInfo(ad_utils.interface_handler, byref(hzSys))
+        dwf.FDwfDigitalOutInternalClockInfo(self.interface_handler, byref(hzSys))
         self.internal_clock_freq = hzSys
         print " internal frequency is " + str(hzSys.value)
 
@@ -67,26 +67,42 @@ class AnalogDiscoveryUtils:
         print "device closed"    
 
 
-def run(ad_utils):
-    """The main function of the experiment.
-    Our test harness consists of two parts:
-        -constant frequency digital output to trigger openmote pin 
-        -logic analyzer to sample input channels to AD, and save values to a csv file.
-    """
+    def run(self):
+        """The main function of the experiment.
+        Our test harness consists of two parts:
+            -constant frequency digital output to trigger openmote pin 
+            -logic analyzer to sample input channels to AD, and save values to a csv file.
+        """
 
+        ### DIGITAL OUT SETUP
+        ### Counter increments each clock cycle, divider sets the clock cycle by dividing system frequency by a specified constant.
+        dwf.FDwfDigitalOutEnableSet(hdwf, c_int(0), c_int(1))	    # enable channel 0
 
-    ### digital out setup
-    dwf.FDwfDigitalOutEnableSet(hdwf, c_int(0), c_int(1))	# enable channel 0
-    dwf.FDwfDigitalOutDividerSet(hdwf, c_int(0), c_int(ad_utils.internal_clock_freq / ad_utils.packet_sending_rate))	# set divider
-    dwf.FDwfDigitalOutCounterSet(hdwf, c_int(0), c_int(100), c_int(100)) #set counter
-    dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
+        set_freq = ad_utils.internal_clock_freq / 100
+        total_counts = ad_utils.packet_sending_rate * set_freq
 
-    ### digital in setup
-    
-    # in record mode samples after trigger are acquired only
-    dwf.FDwfDigitalInAcquisitionModeSet(hdwf, acqmodeRecord)
-    # sample rate = system frequency / divider, 100MHz/100 = 1 MHz
-    #dwf.FDwfDigitalInDividerSet(hdwf, c_int(100))
+        dwf.FDwfDigitalOutDividerSet(hdwf, c_int(0), c_int(set_freq))   # set clock cycle as 1 MHz
+        dwf.FDwfDigitalOutCounterSet(hdwf, c_int(0), c_int(total_counts / 2), c_int(total_counts / 2)) # set how long signal is low and high
+        dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
+
+        ### DIGITAL IN SETUP
+        # in record mode samples after trigger are acquired only
+        dwf.FDwfDigitalInAcquisitionModeSet(hdwf, acqmodeRecord)
+        dwf.FDwfDigitalInDividerSet(hdwf, c_int(set_freq))
+        dwf.FDwfDigitalInSampleFormateSet(hdwf, c_int(32))
+
+        # number of samples after triggerp
+        dwf.FDwfDigitalInTriggerPositionSet(hdwf, c_int(self.num_samples_to_acquire))
+        dwf.FDwfDigitalInTriggerSourceSet(hdwf, trigsrcDetectorDigitalIn)
+        dwf.FDwfDigitalInTriggerSet(hdwf, c_int(0xFFFF), c_int(0), c_int(0), c_int(0))
+
+        # begin acquisition
+        dwf.FDwfDigitalInConfigure(hdwf, c_bool(0), c_bool(1))
+        print "Starting record"
+
+        
+        # sample rate = system frequency / divider, 100MHz/100 = 1 MHz
+        #dwf.FDwfDigitalInDividerSet(hdwf, c_int(100))
 
 if __name__ == "__main__":
 
@@ -105,7 +121,7 @@ if __name__ == "__main__":
 
     ad_utils = AnalogDiscoveryUtils((1/period), sample_rate, nSamples)
     ad_utils.open_device()
-    run(ad_utils)
+    ad_utils.run()
     ad_utils.close_device()
 
 
