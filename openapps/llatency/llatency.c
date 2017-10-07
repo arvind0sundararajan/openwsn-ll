@@ -130,10 +130,9 @@ static void llatency_send_pkt(void){
  * 
  */
 void llatency_task_cb() {
-   //function called, blink debug led
-   debugpins_pkt_set();
+   //callback function called; toggle packet creation pin
+   debugpins_pkt_toggle();
 
-   debugpins_pkt_clr();
    OpenQueueEntry_t*    pkt;
    uint8_t              asnArray[5];
    uint32_t             values[2];

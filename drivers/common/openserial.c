@@ -206,14 +206,12 @@ owerror_t openserial_printData(uint8_t* buffer, uint8_t length) {
 
 
     INTERRUPT_DECLARATION();
-    debugpins_exp_set();
+    debugpins_exp_toggle();
 
     // retrieve ASN
     ieee154e_getAsn(asn);
     values[0] = opentimers_getValue();
     values[1] = ieee154e_getStartOfSlotReference();
-
-    debugpins_exp_clr();
     
     current_ticks[3] = (uint8_t) ((values[0] & 0xff000000)>>24);
     current_ticks[2] = (uint8_t) ((values[0] & 0x00ff0000)>>16);
