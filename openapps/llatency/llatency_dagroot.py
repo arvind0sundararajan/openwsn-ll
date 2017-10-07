@@ -3,6 +3,7 @@ import serial
 import threading
 import struct
 import binascii
+import time
 
 class OpenHdlc(object):
 
@@ -158,7 +159,8 @@ class moteProbe(threading.Thread):
 
     def run(self):
         try:
-            data = 'dataTest.csv'
+            start_time = time.strftime("%H_%M_%S_%m_%d_%Y", time.localtime())
+            data = start_time + '.csv'
             csv = open(data, 'w')
             while self.goOn:     # open serial port
 
@@ -244,6 +246,8 @@ class moteProbe(threading.Thread):
 
                                         with self.outputBufLock:
                                             self.outputBuf += [binascii.unhexlify(self.CMD_SEND_DATA)]
+                                    else:
+                                        print "pkt not from llatency"
 
 
 
