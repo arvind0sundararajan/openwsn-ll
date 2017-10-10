@@ -1536,6 +1536,7 @@ port_INLINE void activity_ti9(PORT_TIMER_WIDTH capturedTime) {
         }
       
         // inform schedule of successful transmission
+        debugpins_pkt_toggle();
         schedule_indicateTx(&ieee154e_vars.asn,TRUE);
       
         // inform upper layer
