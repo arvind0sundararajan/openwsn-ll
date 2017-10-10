@@ -9,6 +9,7 @@
 #include "neighbors.h"
 #include "openbridge.h"
 #include "icmpv6rpl.h"
+#include "debugpins.h"
 
 //=========================== variables =======================================
 
@@ -269,12 +270,14 @@ void iphc_receive(OpenQueueEntry_t* msg) {
     					    
     // then regular header
     iphc_retrieveIPv6Header(msg,&ipv6_outer_header,&ipv6_inner_header,&page_length);
-    
+
+
     // if the address is broadcast address, the ipv6 header is the inner header
     if (
         idmanager_getIsDAGroot()==FALSE ||
         packetfunctions_isBroadcastMulticast(&(ipv6_inner_header.dest))
     ) {
+        //debugpins_exp_toggle();
         packetfunctions_tossHeader(msg,page_length);
         if (
             ipv6_outer_header.next_header==IANA_IPv6HOPOPT &&

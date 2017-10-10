@@ -279,7 +279,8 @@ void forwarding_receive(
     ) {
     uint8_t flags;
     uint16_t senderRank;
-   
+    
+    
     // take ownership
     msg->owner                     = COMPONENT_FORWARDING;
 
@@ -302,6 +303,7 @@ void forwarding_receive(
         &&
         ipv6_outer_header->next_header!=IANA_IPv6ROUTE
     ) {
+        //debugpins_exp_toggle();
         if (ipv6_outer_header->src.type != ADDR_NONE || ipv6_outer_header->rhe_length){
             packetfunctions_tossHeader(msg,ipv6_outer_header->header_length + ipv6_outer_header->rhe_length);
         }

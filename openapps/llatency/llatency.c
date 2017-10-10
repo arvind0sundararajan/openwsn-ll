@@ -1,5 +1,6 @@
 #include "opendefs.h"
 #include "llatency.h"
+#include "openbridge.h"
 #include "openqueue.h"
 #include "openserial.h"
 #include "opentimers.h"
@@ -20,7 +21,7 @@ llatency_vars_t llatency_vars;
 static const uint8_t llatency_payload[]    = "llatency";
 static const uint8_t llatency_dst_addr[]   = {
    0xbb, 0xbb, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-   0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01
+   0x00, 0x12, 0x4b, 0x00, 0x03, 0xa5, 0x90, 0xa6
 }; 
 
 
@@ -80,14 +81,22 @@ void llatency_sendDone(OpenQueueEntry_t* msg, owerror_t error) {
 }
 
 void llatency_receive(OpenQueueEntry_t* pkt) {
-   openqueue_freePacketBuffer(pkt);
-   
+   debugpins_exp_toggle();
+
+   // if dagroot, print over data (only dagroot is connected to serial)
+   //openserial_printData((uint8_t*)(pkt->payload),pkt->length);
+   openbridge_receive(pkt);
+
+   //openqueue_freePacketBuffer(pkt);
+
+   /*
    openserial_printError(
       COMPONENT_LLATENCY,
       ERR_RCVD_ECHO_REPLY,
       (errorparameter_t)0,
       (errorparameter_t)0
    );
+   */
 }
 
 void llatency_get_values(uint32_t* values) {

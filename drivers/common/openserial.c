@@ -206,7 +206,7 @@ owerror_t openserial_printData(uint8_t* buffer, uint8_t length) {
 
 
     INTERRUPT_DECLARATION();
-    debugpins_exp_toggle();
+    //debugpins_exp_toggle();
 
     // retrieve ASN
     ieee154e_getAsn(asn);

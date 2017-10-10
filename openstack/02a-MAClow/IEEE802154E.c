@@ -248,12 +248,6 @@ void ieee154e_calculateExpTime(uint16_t max_delay, uint8_t* et_asn) {
    }
 }
 
-/** returns the counter value corresponding to the ASN
- *
- */
-PORT_TIMER_WIDTH ieee154e_getStartOfSlotReference() {
-   return ieee154e_vars.startOfSlotReference;
-}
 
 /**
 /brief Format asn to asn_t structure
@@ -2259,6 +2253,18 @@ port_INLINE uint16_t ieee154e_getTimeCorrection() {
     
     return returnVal;
 }
+
+
+/** returns the counter value corresponding to the ASN
+ *
+ */
+port_INLINE PORT_TIMER_WIDTH ieee154e_getStartOfSlotReference() {
+   //ieee154e_vars.startOfSlotReference = opentimers_getCurrentTimeout();
+   PORT_TIMER_WIDTH returnVal = ieee154e_vars.startOfSlotReference;
+   return returnVal;
+}
+
+
 
 port_INLINE void joinPriorityStoreFromEB(uint8_t jp){
   ieee154e_vars.dataReceived->l2_joinPriority = jp;
