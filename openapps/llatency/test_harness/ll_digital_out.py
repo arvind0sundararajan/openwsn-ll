@@ -76,8 +76,9 @@ def run(ad_utils):
 
 
     ### digital out setup
+    ### Counter increments each clock cycle, divider sets the clock cycle by dividing system frequency by a specified constant.
     dwf.FDwfDigitalOutEnableSet(hdwf, c_int(0), c_int(1))	# enable channel 0
-    dwf.FDwfDigitalOutDividerSet(hdwf, c_int(0), c_int(ad_utils.internal_clock_freq / ad_utils.packet_sending_rate))	# set divider
+    dwf.FDwfDigitalOutDividerSet(hdwf, c_int(0), c_int(ad_utils.internal_clock_freq / 100))	# set clock cycle as 1 MHz
     dwf.FDwfDigitalOutCounterSet(hdwf, c_int(0), c_int(100), c_int(100)) #set counter
     dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
 
