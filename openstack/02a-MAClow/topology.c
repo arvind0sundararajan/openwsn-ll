@@ -4,9 +4,10 @@
 
 //=========================== defines =========================================
 
-#define TOPOLOGY_MOTE1 0xf7 //dagroot
-#define TOPOLOGY_MOTE2 0xa6 //rx mote
-#define TOPOLOGY_MOTE3 0xd5 //tx
+#define TOPOLOGY_MOTE1 0xd5 //rx 1
+#define TOPOLOGY_MOTE2 0xf7 //dagroot (rx 2)
+#define TOPOLOGY_MOTE3 0xa6 // rx 3
+#define TOPOLOGY_MOTETX 0xb4
 
 //=========================== variables =======================================
 
@@ -61,24 +62,32 @@ bool topology_isAcceptablePacket(ieee802154_header_iht* ieee802514_header) {
    returnVal=FALSE;
 
    switch (idmanager_getMyID(ADDR_64B)->addr_64b[7]) {
+      case TOPOLOGY_MOTETX:
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE1 ||
+             ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE2 ||
+             ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE3
+             ) {
+            returnVal=TRUE;
+         } else {
+            returnVal=FALSE;
+         }
+         break;
       case TOPOLOGY_MOTE1:
-         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE2) {
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX) {
             returnVal=TRUE;
          } else {
             returnVal=FALSE;
          }
          break;
       case TOPOLOGY_MOTE2:
-         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE3 ||
-             ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE1
-            ) {
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX) {
             returnVal=TRUE;
          } else {
             returnVal=FALSE;
          }
          break;
       case TOPOLOGY_MOTE3:
-         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTE2) {
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX) {
             returnVal=TRUE;
          } else {
             returnVal=FALSE;

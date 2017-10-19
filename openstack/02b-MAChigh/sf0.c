@@ -35,7 +35,8 @@ void sf0_init(void) {
 
 // this function is called once per slotframe. 
 void sf0_notifyNewSlotframe(void) {
-   scheduler_push_task(sf0_bandwidthEstimate_task,TASKPRIO_SF0);
+   //scheduler_push_task(sf0_bandwidthEstimate_task,TASKPRIO_SF0);
+	//pendulum
 }
 
 void sf0_setBackoff(uint8_t value){
