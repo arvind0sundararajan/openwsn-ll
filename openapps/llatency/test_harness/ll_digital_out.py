@@ -74,8 +74,7 @@ class AnalogDiscoveryUtils:
             -logic analyzer to sample input channels to AD, and save values to a csv file.
         """
 
-
-        ### digital out setup
+        ### DIGITAL OUT SETUP
         ### Counter increments each clock cycle, divider sets the clock cycle by dividing system frequency by a specified constant.
         dwf.FDwfDigitalOutEnableSet(hdwf, c_int(0), c_int(1))	    # enable channel 0
 
@@ -86,14 +85,22 @@ class AnalogDiscoveryUtils:
         dwf.FDwfDigitalOutCounterSet(hdwf, c_int(0), c_int(total_counts / 2), c_int(total_counts / 2)) # set how long signal is low and high
         dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
 
-
-        ### digital in setup
+        ### DIGITAL IN SETUP
         # in record mode samples after trigger are acquired only
         dwf.FDwfDigitalInAcquisitionModeSet(hdwf, acqmodeRecord)
         dwf.FDwfDigitalInDividerSet(hdwf, c_int(set_freq))
         dwf.FDwfDigitalInSampleFormateSet(hdwf, c_int(32))
-        dwf.FDwfDigital
 
+        # number of samples after triggerp
+        dwf.FDwfDigitalInTriggerPositionSet(hdwf, c_int(self.num_samples_to_acquire))
+        dwf.FDwfDigitalInTriggerSourceSet(hdwf, trigsrcDetectorDigitalIn)
+        dwf.FDwfDigitalInTriggerSet(hdwf, c_int(0xFFFF), c_int(0), c_int(0), c_int(0))
+
+        # begin acquisition
+        dwf.FDwfDigitalInConfigure(hdwf, c_bool(0), c_bool(1))
+        print "Starting record"
+
+        
         # sample rate = system frequency / divider, 100MHz/100 = 1 MHz
         #dwf.FDwfDigitalInDividerSet(hdwf, c_int(100))
 
