@@ -31,9 +31,39 @@ class Network:
 
 
 class AnalogDiscoveryUtils:
+
     def __init__(self):
         self.interface_handler = None
         self.internal_clock_freq = None
+
+    def open_device(self):
+        """Opens the connection to AD2. 
+           Sets the class attribute post-connection dwf interface_handler
+               object, as well as the internal clock frequency.
+        """
+        #open device
+        #declare ctype variables
+        hdwf = c_int()
+        # sts = c_byte()
+
+        print "Opening first device"
+        dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
+
+        if hdwf.value == 0:
+            print "failed to open device"
+            quit()
+
+        self.interface_handler = hdwf
+
+        hzSys = c_double()
+        dwf.FDwfDigitalOutInternalClockInfo(self.interface_handler, byref(hzSys))
+        self.internal_clock_freq = hzSys
+        print " internal frequency is " + str(hzSys.value)
+
+    def close_device(self):
+        """Close the connection to AD2."""
+        dwf.FDwfDeviceCloseAll()
+        print "device closed" 
 
 
 def initialize_networks(num_networks):
@@ -57,6 +87,7 @@ def initialize_networks(num_networks):
         for channel in input_channels:
             input_channels_to_network[channel] = network
 
+
 def startup():
     """ Sets the global dwf variable to the appropriate value. Runs on program startup.
     """
@@ -72,11 +103,16 @@ def startup():
     dwf.FDwfGetVersion(version)
     print "DWF Version: "+version.value 
 
+
 if __name__ == "__main__":
     
     num_networks = input("Number of networks: ")
     initialize_networks(num_networks)
+    
     startup()
+    ad_utils = AnalogDiscoveryUtils()
+    ad_utils.open_device()
+    ad_utils.close_device()
 
 
 
