@@ -41,10 +41,10 @@ class AnalogDiscoveryUtils:
            Sets the class attribute post-connection dwf interface_handler
                object, as well as the internal clock frequency.
         """
-        #open device
-        #declare ctype variables
+        # open device
+        # declare ctype variables
         hdwf = c_int()
-        # sts = c_byte()
+        #sts = c_byte()
 
         print "Opening first device"
         dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
@@ -72,7 +72,7 @@ def initialize_networks(num_networks):
     # keep asking for networks
     for number in range(num_networks):
         print("Network {}:".format(number))
-        output_channels = input("   Sending mote channels: ")
+       output_channels = input("   Sending mote channels: ")
         input_channels = input("    Receiving mote channels: ")
         num_packets_to_send = input ("    Number of packets to send: ")
 
@@ -98,7 +98,7 @@ def startup():
     else:
         dwf = cdll.LoadLibrary("libdwf.so")
 
-    #print DWF version
+    # print DWF version
     version = create_string_buffer(16)
     dwf.FDwfGetVersion(version)
     print "DWF Version: "+version.value 

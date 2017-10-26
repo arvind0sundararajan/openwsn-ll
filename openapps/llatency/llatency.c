@@ -10,6 +10,7 @@
 #include "debugpins.h"
 #include "headers/hw_memmap.h"
 #include "source/gpio.h"
+#include "board_info.h"
 #include "leds.h"
 
 //=========================== variables =======================================
@@ -93,8 +94,7 @@ void llatency_get_values(uint32_t* values) {
   //counter value
   values[0] = opentimers_getValue();
   // asn
-  values[1] = 0;
-  //ieee154e_getStartOfSlotReference();
+  values[1] = ieee154e_getStartOfSlotReference();
 }
 
 //=========================== private =========================================
@@ -104,7 +104,6 @@ void llatency_get_values(uint32_t* values) {
  * call the cb function specified.
  */
 void openmote_GPIO_A_Handler(void) {
-    debugpins_pkt_set();
     //INTERRUPT_DECLARATION();
 
     // Disable interrupts 
@@ -113,21 +112,18 @@ void openmote_GPIO_A_Handler(void) {
     // clear the interrupt!
     GPIOPinIntClear(GPIO_A_BASE, GPIO_PIN_2); 
 
-    //leds_debug_blink();
     llatency_send_pkt();
 
     //Enable interrupts 
     //ENABLE_INTERRUPTS();
-    debugpins_pkt_clr();
 }
 
 /**
  *push task to scheduler with CoAP priority, and let scheduler take care of it.
 */
 static void llatency_send_pkt(void){
-   //debugpins_pkt_set();
    scheduler_push_task(llatency_task_cb,TASKPRIO_COAP);
-   //debugpins_pkt_clr();
+   SCHEDULER_WAKEUP();
 }
 
 /**
@@ -135,8 +131,9 @@ static void llatency_send_pkt(void){
  */
 void llatency_task_cb() {
    //function called, blink debug led
-   leds_debug_blink();
+   debugpins_pkt_set();
 
+   debugpins_pkt_clr();
    OpenQueueEntry_t*    pkt;
    uint8_t              asnArray[5];
    uint32_t             values[2];
@@ -153,11 +150,8 @@ void llatency_task_cb() {
       return;
    }
   
-   
    // if you get here, send a packet
 
-   // D08
-   debugpins_pkt_set();
    llatency_get_values(values);
    // get a free packet buffer
    pkt = openqueue_getFreePacketBuffer(COMPONENT_LLATENCY);
@@ -212,7 +206,6 @@ void llatency_task_cb() {
    if ((openudp_send(pkt))==E_FAIL) {
       openqueue_freePacketBuffer(pkt);
    }
-   debugpins_pkt_clr();
 }
 
 
