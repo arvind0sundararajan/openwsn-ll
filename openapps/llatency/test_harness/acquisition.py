@@ -25,8 +25,9 @@ class Network:
     packets_remaining = 0
 
     def __init__(self, output_channels, input_channels, packets_remaining):
-        self.output_channels = list(output_channels)
-        self.input_channels = list(input_channels)
+        self.output_channels = output_channels
+        self.input_channels = input_channels
+
         self.packets_remaining = packets_remaining
 
 
@@ -72,9 +73,14 @@ def initialize_networks(num_networks):
     # keep asking for networks
     for number in range(num_networks):
         print("Network {}:".format(number))
-        output_channels = input("   Sending mote channels: ")
-        input_channels = input("    Receiving mote channels: ")
-        num_packets_to_send = input ("    Number of packets to send: ")
+        output_channels = raw_input("   Sending mote channels: ")
+        input_channels = raw_input("   Receiving mote channels: ")
+
+        #convert channels from string of comma separated ints to list of ints
+        output_channels = [int(i) for i in output_channels.split(", ")]
+        input_channels = [int(i) for i in input_channels.split(", ")]
+
+        num_packets_to_send = input("   Number of packets to send: ")
 
         # create new network 
         network = Network(output_channels, input_channels, num_packets_to_send)
