@@ -88,9 +88,7 @@ def initialize_networks(num_networks):
             input_channels_to_network[channel] = network
 
 
-def startup():
-    """ Sets the global dwf variable to the appropriate value. Runs on program startup.
-    """
+if __name__ == "__main__":
     if sys.platform.startswith("win"):
         dwf = cdll.dwf
     elif sys.platform.startswith("darwin"):
@@ -103,13 +101,9 @@ def startup():
     dwf.FDwfGetVersion(version)
     print "DWF Version: "+version.value 
 
-
-if __name__ == "__main__":
-    
     num_networks = input("Number of networks: ")
     initialize_networks(num_networks)
     
-    startup()
     ad_utils = AnalogDiscoveryUtils()
     ad_utils.open_device()
     ad_utils.close_device()
