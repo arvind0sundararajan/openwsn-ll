@@ -12,21 +12,6 @@ import sys
 
 dwf = None
 
-def startup():
-    """ Sets the global dwf variable to the appropriate value. Runs on program startup.
-    """
-    if sys.platform.startswith("win"):
-        dwf = cdll.dwf
-    elif sys.platform.startswith("darwin"):
-        dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
-    else:
-        dwf = cdll.LoadLibrary("libdwf.so")
-
-    #print DWF version
-    version = create_string_buffer(16)
-    dwf.FDwfGetVersion(version)
-    print "DWF Version: "+version.value 
-
 
 class AnalogDiscoveryUtils:
 
