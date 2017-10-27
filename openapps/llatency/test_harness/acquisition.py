@@ -161,7 +161,7 @@ class AnalogDiscoveryUtils:
 		#dwf.FDwfDigitalInBufferSizeSet(self.interface_handler, self.max_buffer_size_in)
 
 		# take num_samples after trigger
-		dwf.FDwfDigitalInTriggerPositionSet(self.interface_handler, c_int(num_samples))
+		dwf.FDwfDigitalInTriggerPositionSet(self.interface_handler, c_uint32(num_samples))
 		# set trigger source to AD2 DigitalIn channels
 		dwf.FDwfDigitalInTriggerSourceSet(self.interface_handler, trigsrcDetectorDigitalIn)
 		# set DigitalIn trigger when trigger_channel_bit_rep is high
