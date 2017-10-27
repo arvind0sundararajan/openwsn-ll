@@ -55,19 +55,28 @@ class AnalogDiscoveryUtils:
     def run(self):
         """The main function of the experiment.
         Our test harness consists of two parts:
-            -constant frequency digital output to trigger openmote pin 
+            -digital output to trigger sending mote pin
             -logic analyzer to sample input channels to AD, and save values to a csv file.
+                input channels: sending mote packet sending confirmation
+                                receiving mote packet reception confirmation
+        Once the receiving mote confirms packet reception, digital out triggers the sending mote pin again
         """
 
         ### DIGITAL OUT SETUP
         ### Counter increments each clock cycle, divider sets the clock cycle by dividing system frequency by a specified constant.
+        
+        # FDwfDigitalOutEnableSet(HDWF hdwf, int idxChannel, BOOL fEnable)
+        # The function above enables or disables the channel specified by idxChannel.
         dwf.FDwfDigitalOutEnableSet(hdwf, c_int(0), c_int(1))	    # enable channel 0
 
+        # our sampling frequency is 1 MHz
         set_freq = ad_utils.internal_clock_freq / 100
         total_counts = ad_utils.packet_sending_rate * set_freq
 
         dwf.FDwfDigitalOutDividerSet(hdwf, c_int(0), c_int(set_freq))   # set clock cycle as 1 MHz
         dwf.FDwfDigitalOutCounterSet(hdwf, c_int(0), c_int(total_counts / 2), c_int(total_counts / 2)) # set how long signal is low and high
+        
+        # start/stop the instrument
         dwf.FDwfDigitalOutConfigure(hdwf, c_int(1))
 
         ### DIGITAL IN SETUP
