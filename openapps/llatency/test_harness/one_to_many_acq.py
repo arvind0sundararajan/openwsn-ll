@@ -118,7 +118,7 @@ class AnalogDiscoveryUtils:
         # num_packets_received + num_packets_missed = num_tries
         num_tries = 0
         
-        last_packet_received = True
+       last_packet_received = True
 
         ##### MAIN LOOP of experiment. #####
         # runs for the duration of the experiment
