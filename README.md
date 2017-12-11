@@ -1,6 +1,6 @@
 # OpenWSN Firmware: Low Latency Wireless Sensor Networks
 
-This repository contains the OpenWSN firmware running on the OpenMote-cc2538 to conduct low latency experiment with the OpenWSN wireless sensor network. It is  
+This repository contains the firmware to conduct low latency experiments with the OpenWSN wireless sensor network.
 
 ## How to Use
 
@@ -10,9 +10,10 @@ This project enables sending and receiving radio packets to and from designated 
 
 0. Required hardware: at least 2 OpenMote-cc2538 devices. Recommended hardware: AnalogDiscovery2, jumpers.
 
-1. Make sure you have the required software dependencies. Build the [vanilla openwsn firmware] and run first to ensure dependencies work.
+1. Make sure you have the required software dependencies. Build the [vanilla openwsn firmware] and work through the [Kickstart Tutorial] to ensure dependencies work.
 
 [vanilla openwsn firmware]: https://github.com/openwsn-berkeley/openwsn-fw
+[Kickstart Tutorial]: https://openwsn.atlassian.net/wiki/spaces/OW/pages/12058660/Get+Started
 
 2. Note the serial port each mote is connected to. Using the [OpenVisualizer], find the addresses of each OpenMote.
 
@@ -24,7 +25,7 @@ This project enables sending and receiving radio packets to and from designated 
 $ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='llatency' bootload=port1,port2 oos_openwsn
 ```
 
-4. Modify the last line of `openapps/llatency/llatency_dagroot.py` to set the serial port of the desired dagroot.Run `python openapps/llatency/llatency_dagroot` to set the dagroot and start the network.
+4. Modify the last line of `openapps/llatency/llatency_dagroot.py` to set the serial port of the desired dagroot.Run ```$ python openapps/llatency/llatency_dagroot.py``` to set the dagroot and start the network.
 
 ## Miscellaneous
 
