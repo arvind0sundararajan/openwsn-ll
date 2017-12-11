@@ -30,6 +30,21 @@ $ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='
 ## Differences between openwsn-ll and openwsn-fw
 
 * More debugpin functions added in `bsp/boards/openmote-cc2538/debugpins.c`. (Add table.)
+
+| OpenMote GPIO | Function |
+| -------------	| -------- |
+| AD0/DIO0 | slot |
+| AD1/DIO1 | fsm |
+| AD2/DIO2 | task |
+| AD3/DIO3 | radio |
+| RST/AD6/DIO6 | isr |
+| AD5/DIO5 | frame |
+| AD4/DIO4 | rising edge interrupt to send packet |
+| CTS/DIO7 | toggled when llatency packet is received |
+| DO8 | toggled when llatency packet is created |
+
+
+
 * `openapps/llatency/`: code to send packets on a dedicated pin interrupt, and raise a dedicate pin on an llatency packet reception
 * `openstack/02a-MAClow/topology.c`: a hardcoded topology. For one to one, we have A <-> B <-> C.
 * `openstack/02b-MAChigh/schedule.h`: schedule with custom number of active slots. 
