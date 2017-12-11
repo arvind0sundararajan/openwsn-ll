@@ -29,7 +29,7 @@ $ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='
 
 ## Differences between openwsn-ll and openwsn-fw
 
-* More debugpin functions added in `bsp/boards/openmote-cc2538/debugpins.c`. (Add table.)
+* More debugpin functions added in `bsp/boards/openmote-cc2538/debugpins.c`. 
 
 | OpenMote GPIO | Function |
 | -------------	| -------- |
@@ -39,8 +39,8 @@ $ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='
 | AD3/DIO3 | radio |
 | RST/AD6/DIO6 | isr |
 | AD5/DIO5 | frame |
-| AD4/DIO4 | rising edge interrupt to send packet |
 | CTS/DIO7 | toggled when llatency packet is received |
+| AD4/DIO4 | rising edge interrupt to send packet |
 | DO8 | toggled when llatency packet is created |
 
 
