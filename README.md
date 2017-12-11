@@ -27,6 +27,13 @@ $ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='
 
 4. Modify the last line of `openapps/llatency/llatency_dagroot.py` to set the serial port of the desired dagroot.Run ```$ python openapps/llatency/llatency_dagroot.py``` to set the dagroot and start the network.
 
+## Differences between openwsn-ll and openwsn-fw
+
+* More debugpin functions added in `bsp/boards/openmote-cc2538/debugpins.c`. (Add table.)
+* `openapps/llatency/`: code to send packets on a dedicated pin interrupt, and raise a dedicate pin on an llatency packet reception
+* `openstack/02a-MAClow/topology.c`: a hardcoded topology. For one to one, we have A <-> B <-> C.
+* `openstack/02b-MAChigh/schedule.h`: schedule with custom number of active slots. 
+
 ## Miscellaneous
 
 OpenWSN firmware: stuff that runs on a mote
