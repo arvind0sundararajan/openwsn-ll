@@ -15,7 +15,7 @@ This project enables sending and receiving radio packets to and from designated 
 [vanilla openwsn firmware]: https://github.com/openwsn-berkeley/openwsn-fw
 [Kickstart Tutorial]: https://openwsn.atlassian.net/wiki/spaces/OW/pages/12058660/Get+Started
 
-2. Note the serial port each mote is connected to. Using the [OpenVisualizer], find the addresses of each OpenMote.
+2. Connect the openmotes to the computer. Note the serial port each mote is connected to. Using the [OpenVisualizer], find the addresses of each OpenMote.
 
 [OpenVisualizer]: https://github.com/openwsn-berkeley/openwsn-sw
 
@@ -50,6 +50,8 @@ $ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='
 * `openstack/02b-MAChigh/schedule.h`: schedule with custom number of active slots. 
 
 ## Miscellaneous
+
+* Make sure the same topology in `topology.c` is reflected in the packet destination address defined in `llatency.c`.
 
 OpenWSN firmware: stuff that runs on a mote
 
