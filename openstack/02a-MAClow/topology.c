@@ -63,23 +63,23 @@ bool topology_isAcceptablePacket(ieee802154_header_iht* ieee802514_header) {
 
    switch (idmanager_getMyID(ADDR_64B)->addr_64b[7]) {
       case TOPOLOGY_DAGROOT:
-         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTERX) {
-            returnVal=TRUE;
-         } else {
-            returnVal=FALSE;
-         }
-         break;
-      case TOPOLOGY_MOTERX:
-         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_DAGROOT ||
-             ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX
-            ) {
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX) {
             returnVal=TRUE;
          } else {
             returnVal=FALSE;
          }
          break;
       case TOPOLOGY_MOTETX:
-         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTERX) {
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_DAGROOT ||
+             ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTERX
+            ) {
+            returnVal=TRUE;
+         } else {
+            returnVal=FALSE;
+         }
+         break;
+      case TOPOLOGY_MOTERX:
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX) {
             returnVal=TRUE;
          } else {
             returnVal=FALSE;
