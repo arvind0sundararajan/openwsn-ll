@@ -22,7 +22,7 @@ This project enables sending and receiving radio packets to and from designated 
 3. Build the openwsn-ll firmware on each mote, omitting the `revision` keyword if using the Rev. E OpenMotes:
 
 ```
-$ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='llatency' bootload=port1,port2 oos_openwsn
+$ sudo scons board=openmote-cc2538 toolchain=armgcc revision=A1 verbose=1 apps='llatency' forcetopology=1 bootload=port1,port2 oos_openwsn
 ```
 
 4. Modify the last line of `openapps/llatency/llatency_dagroot.py` to set the serial port of the desired dagroot.Run ```$ python openapps/llatency/llatency_dagroot.py``` to set the dagroot and start the network.
