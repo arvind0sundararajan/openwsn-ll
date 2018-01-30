@@ -48,6 +48,9 @@ void llatency_init() {
     // register the interrupt handler to openmote AD4/DIO4 (PA2)
     // configure CTS/DIO7 (PA3) to output spike on packet reception event (do we do that here?)
     ll_configure_pins();
+
+    // uncomment this line to transmit over only one channel
+    //ieee154e_setSingleChannel(11);
 }
 
 /* Register the interrupt handler to AD4/DIO4 (PA2)
