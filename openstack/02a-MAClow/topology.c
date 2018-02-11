@@ -4,6 +4,11 @@
 
 //=========================== defines =========================================
 
+#define TOPOLOGY_DAGROOT 0xa6
+#define TOPOLOGY_MOTETX 0xf7//transmits
+#define TOPOLOGY_MOTERX 0xd5 //receives
+// our topology goes TX <-> RX <-> DAGROOT
+
 //=========================== variables =======================================
 
 //=========================== prototypes ======================================
@@ -55,43 +60,29 @@ bool topology_isAcceptablePacket(ieee802154_header_iht* ieee802514_header) {
    bool returnVal;
    
    returnVal=FALSE;
+
    switch (idmanager_getMyID(ADDR_64B)->addr_64b[7]) {
-      case 0x57:
-         if (
-               ieee802514_header->src.addr_64b[7]==0x05
-            ) {
+      case TOPOLOGY_DAGROOT:
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTERX) {
             returnVal=TRUE;
+         } else {
+            returnVal=FALSE;
          }
          break;
-      case 0x05:
-         if (
-               ieee802514_header->src.addr_64b[7]==0x57 ||
-               ieee802514_header->src.addr_64b[7]==0x16
+      case TOPOLOGY_MOTERX:
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_DAGROOT ||
+             ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTETX
             ) {
             returnVal=TRUE;
+         } else {
+            returnVal=FALSE;
          }
          break;
-      case 0x16:
-         if (
-               ieee802514_header->src.addr_64b[7]==0x05 ||
-               ieee802514_header->src.addr_64b[7]==0x5e
-            ) {
+      case TOPOLOGY_MOTETX:
+         if (ieee802514_header->src.addr_64b[7]==TOPOLOGY_MOTERX) {
             returnVal=TRUE;
-         }
-         break;
-      case 0x5e:
-         if (
-               ieee802514_header->src.addr_64b[7]==0x16 ||
-               ieee802514_header->src.addr_64b[7]==0xdd
-            ) {
-            returnVal=TRUE;
-         }
-         break;
-      case 0xdd:
-         if (
-               ieee802514_header->src.addr_64b[7]==0x5e
-            ) {
-            returnVal=TRUE;
+         } else {
+            returnVal=FALSE;
          }
          break;
    }
@@ -99,6 +90,32 @@ bool topology_isAcceptablePacket(ieee802154_header_iht* ieee802514_header) {
 #else
    return TRUE;
 #endif
+
+   /**
+   switch (idmanager_getMyID(ADDR_64B)->addr_64b[7]) {
+      case 0xdf:
+         if (
+               ieee802514_header->src.addr_64b[7]==0x66
+            ) {
+            returnVal=TRUE;
+         }
+         break;
+      case 0x66:
+         if (
+               ieee802514_header->src.addr_64b[7]==0xdf ||
+               ieee802514_header->src.addr_64b[7]==0x4f
+            ) {
+            returnVal=TRUE;
+         }
+         break;
+      case 0x4f:
+         if (
+               ieee802514_header->src.addr_64b[7]==0x66
+            ) {
+            returnVal=TRUE;
+         }
+         break;   
+   } */
 }
 
 //=========================== private =========================================

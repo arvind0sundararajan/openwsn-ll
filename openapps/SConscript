@@ -13,6 +13,7 @@ if localEnv['board']=='python':
         'cinfo',
         'cleds',
         'cwellknown',
+        'llatency',
         'uecho',
         'uinject',
         'userialbridge',

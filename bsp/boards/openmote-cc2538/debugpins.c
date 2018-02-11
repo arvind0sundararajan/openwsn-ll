@@ -16,6 +16,7 @@
 //=========================== defines =========================================
 // Board dbPINS defines
 #define BSP_PINA_BASE           GPIO_A_BASE
+#define BSP_PINB_BASE           GPIO_B_BASE
 #define BSP_PIND_BASE           GPIO_D_BASE
 
 #define BSP_PINA_4              GPIO_PIN_4      //!< PA4 -- frame -RF1.5
@@ -106,6 +107,29 @@ void debugpins_radio_clr() {
 }
 void debugpins_radio_set() {
 	GPIOPinWrite(BSP_PIND_BASE, BSP_PIND_0, BSP_PIND_0);
+}
+
+
+// PA3
+void debugpins_exp_toggle() {
+  bspDBpinToggle(BSP_PINA_BASE, BSP_PIND_3);
+}
+void debugpins_exp_clr() {
+  GPIOPinWrite(BSP_PINA_BASE, BSP_PIND_3, 0);
+}
+void debugpins_exp_set() {
+  GPIOPinWrite(BSP_PINA_BASE, BSP_PIND_3, BSP_PIND_3);
+}
+
+// PB5
+void debugpins_pkt_toggle() {
+  bspDBpinToggle(BSP_PINB_BASE, BSP_PINA_5);
+}
+void debugpins_pkt_clr() {
+  GPIOPinWrite(BSP_PINB_BASE, BSP_PINA_5, 0);
+}
+void debugpins_pkt_set() {
+  GPIOPinWrite(BSP_PINB_BASE, BSP_PINA_5, BSP_PINA_5);
 }
 
 //------------ private ------------//

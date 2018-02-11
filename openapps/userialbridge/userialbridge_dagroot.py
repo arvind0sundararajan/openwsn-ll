@@ -20,7 +20,8 @@ def buf2hex(buf):
 
 class moteProbe(threading.Thread):
     
-    CMD_SET_DAGROOT = '7e5259bbbb0000000000000c347e'
+    CMD_SET_DAGROOT = '7e5259bbbb00000000000001deadbeefcafedeadbeefcafedeadbeefa7d97e' # prefix: bbbb000000000000 keyindex : 01 keyvalue: deadbeefcafedeadbeefcafedeadbeef
+    #CMD_SET_DAGROOT = '7e5259bbbb0000000000000c347e'
     
     XOFF           = 0x13
     XON            = 0x11
@@ -266,7 +267,7 @@ class OpenHdlc(object):
 #============================ main ============================================
 
 def main():
-    moteProbe(COMPORT)
+    moteProbe('COM3')
 
 if __name__=="__main__":
     main()
